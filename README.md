@@ -1,1 +1,1 @@
-# App-para-gestao-de-Barbearia
+# Aplicativo para Gestão de Barbearia
