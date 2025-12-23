@@ -1,0 +1,245 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barbearia VIP | Agende Agora</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://npmcdn.com/flatpickr/dist/themes/dark.css"
+    />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <section class="hero-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            {% if messages %} {% for message in messages %}
+            <div
+              class="alert alert-{{ message.tags }} alert-dismissible fade show shadow"
+              role="alert"
+            >
+              {{ message }}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            {% endfor %} {% endif %}
+
+            <div class="booking-card animate-up">
+              <div class="text-center mb-4">
+                <h2 class="booking-title">ANDIN BARBEARIA</h2>
+                <hr style="border-color: var(--primary-gold); opacity: 0.5" />
+              </div>
+
+              <form method="POST" id="bookingForm">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                  <label class="form-label text-uppercase small fw-bold"
+                    >Seu Nome</label
+                  >
+                  {{ form.cliente_nome }}
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label text-uppercase small fw-bold"
+                    >Telefone</label
+                  >
+                  {{ form.cliente_telefone }}
+                </div>
+
+                <hr class="my-4" style="border-color: #444" />
+
+                <div class="mb-3">
+                  <label
+                    class="form-label text-uppercase small fw-bold text-gold"
+                  >
+                    Serviços
+                  </label>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-gold w-100 text-start d-flex justify-content-between align-items-center p-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalServicos"
+                  >
+                    <span id="resumo-servicos">Toque para selecionar...</span>
+                  </button>
+
+                  {% if form.servicos.errors %}
+                  <div class="text-danger small mt-1">
+                    Selecione pelo menos um serviço.
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div
+                  class="modal fade"
+                  id="modalServicos"
+                  tabindex="-1"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header border-secondary">
+                        <h5 class="modal-title text-gold">
+                          Escolha os Serviços
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close btn-close-white"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row g-2">
+                          {% for checkbox in form.servicos %}
+                          <div class="col-12">
+                            {{ checkbox.tag }}
+                            <label
+                              class="btn btn-outline-service w-100 text-start p-3"
+                              for="{{ checkbox.id_for_label }}"
+                            >
+                              <div
+                                class="d-flex justify-content-between align-items-center"
+                              >
+                                <span class="fw-bold"
+                                  >{{ checkbox.choice_label }}</span
+                                >
+                                <span class="badge bg-gold text-dark">✓</span>
+                              </div>
+                            </label>
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="modal-footer border-secondary">
+                        <button
+                          type="button"
+                          class="btn btn-gold w-100"
+                          data-bs-dismiss="modal"
+                        >
+                          Confirmar Seleção
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 mt-4">
+                  <label
+                    class="form-label text-uppercase small fw-bold text-gold"
+                  >
+                    📅 Escolha o Dia
+                  </label>
+                  <input
+                    type="text"
+                    id="calendario"
+                    class="form-control text-center"
+                    placeholder="Toque para abrir o calendário"
+                  />
+                </div>
+
+                <div id="container-horarios" class="mb-4"></div>
+
+                <div class="d-grid gap-2 mt-4">
+                  <button type="submit" class="btn btn-gold btn-lg">
+                    Finalizar Agendamento
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 1. Lógica do Calendário
+        flatpickr("#calendario", {
+          locale: "pt",
+          minDate: "today",
+          dateFormat: "d/m/Y",
+          disable: [
+            function (date) {
+              return date.getDay() === 0;
+            },
+          ],
+          onChange: function (selectedDates, dateStr, instance) {
+            const dataFormatada = instance.formatDate(
+              selectedDates[0],
+              "Y-m-d"
+            );
+            htmx.ajax(
+              "GET",
+              `{% url 'ajax_carregar_horarios' %}?data=${dataFormatada}`,
+              "#container-horarios"
+            );
+          },
+        });
+
+        // 2. Lógica de Atualizar o Texto do Botão de Serviços
+        const checkboxes = document.querySelectorAll('input[name="servicos"]');
+        const resumo = document.getElementById("resumo-servicos");
+
+        function atualizarResumo() {
+          let selecionados = 0;
+          let nomes = [];
+
+          checkboxes.forEach((cb) => {
+            if (cb.checked) {
+              selecionados++;
+              // Tenta pegar o texto do label vizinho
+              let labelText =
+                cb.nextElementSibling.querySelector("span.fw-bold").innerText;
+              // Remove o preço para ficar curto (opcional)
+              nomes.push(labelText.split("-")[0].trim());
+            }
+          });
+
+          if (selecionados === 0) {
+            resumo.innerText = "Toque para selecionar...";
+            resumo.style.color = "#888";
+          } else {
+            resumo.innerText = `${selecionados} selecionado(s): ${nomes.join(
+              ", "
+            )}`;
+            resumo.style.color = "#c59d5f"; // Dourado
+          }
+        }
+
+        // Ouve os cliques nos checkboxes
+        checkboxes.forEach((cb) => {
+          cb.addEventListener("change", atualizarResumo);
+        });
+      });
+    </script>
+  </body>
+</html>

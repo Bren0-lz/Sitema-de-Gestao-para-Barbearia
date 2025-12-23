@@ -1,0 +1,40 @@
+{% if horarios %}
+<div class="row g-2 animate-up">
+  <p class="text-muted small mb-2">
+    Legenda: <span class="text-gold">■ Livre</span> |
+    <span class="text-muted">■ Ocupado</span>
+  </p>
+
+  {% for horario in horarios %}
+  <div class="col-4 col-sm-3">
+    {% if not horario.reservado %}
+    <input
+      type="radio"
+      class="btn-check"
+      name="horario_selecionado"
+      id="option_{{ horario.id }}"
+      value="{{ horario.id }}"
+      required
+    />
+
+    <label class="btn btn-outline-gold w-100" for="option_{{ horario.id }}">
+      {{ horario.data_hora|date:"H:i" }}
+    </label>
+
+    {% else %}
+    <button
+      type="button"
+      class="btn btn-secondary w-100 btn-occupied"
+      onclick="alert('⚠️ Este horário já está reservado por outro cliente. Por favor, escolha outro.')"
+    >
+      <del>{{ horario.data_hora|date:"H:i" }}</del>
+    </button>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="form-label text-uppercase small fw-bold">
+  <small>O barbeiro não abriu agenda para este dia.</small>
+</div>
+{% endif %}
