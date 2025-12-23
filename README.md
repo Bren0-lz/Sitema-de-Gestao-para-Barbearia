@@ -35,30 +35,30 @@ Antes de começar, você precisará ter instalado em sua máquina:
    
 2. **Crie um ambiente virtual:**
 
-Bash
-
+```bash
 python -m venv venv
 Ative o ambiente virtual:
 
 Windows: .\venv\Scripts\activate
 
 Linux/Mac: source venv/bin/activate
+```
 
-Instale as dependências:
+**Instale as dependências:**
 
-Bash
-
+```bash
 pip install -r requirements.txt
 Execute as migrações do banco de dados:
+```
 
-Bash
-
+```bash
 python manage.py migrate
 Inicie o servidor:
+```
 
-Bash
-
+```bash
 python manage.py runserver
+```
 O servidor estará rodando em: http://127.0.0.1:8000/
 
 ## 📡 API Endpoints
