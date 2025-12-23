@@ -1,0 +1,24 @@
+{% extends "admin/change_list.html" %} {% load i18n %} {% block object-tools %}
+<div style="margin-bottom: 20px">
+  <form action="gerar_agenda/" method="POST">
+    {% csrf_token %}
+    <button
+      type="submit"
+      style="
+        background-color: #c59d5f;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      "
+    >
+      📅 Gerar Agenda Anual (365 Dias)
+    </button>
+  </form>
+</div>
+{{ block.super }} {% endblock %}
