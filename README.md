@@ -1,3 +1,5 @@
+# Aplicativo em desenvolvimento #
+
 # 💈 Sistema de Gestão para Barbearia 💈
 
 Este projeto é uma solução completa para gestão de barbearias, permitindo que clientes realizem agendamentos via web e que o barbeiro gerencie sua agenda em tempo real através de um aplicativo conectado a uma API Django.
