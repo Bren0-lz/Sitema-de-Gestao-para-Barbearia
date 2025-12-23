@@ -1,4 +1,4 @@
-# Aplicativo em desenvolvimento #
+# Projeto em desenvolvimento #
 
 # 💈 Sistema de Gestão para Barbearia 💈
 
