@@ -92,5 +92,5 @@ Abaixo estão alguns dos principais endpoints disponíveis:
 - [ ] Relatórios de ganhos mensais e estatísticas de serviços mais pedidos.
 - [ ] Suporte a múltiplos barbeiros na mesma unidade.
 
-## Autores
+## Autor
 * **Breno Luiz** - [Bren0-lz](https://github.com/Bren0-lz)
