@@ -1,5 +1,9 @@
 # 💈 Sistema de Gestão para Barbearia 💈
 
+![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-em_desenvolvimento-yellow)
+
 Este projeto é uma solução completa para gestão de barbearias, permitindo que clientes realizem agendamentos via web e que o barbeiro gerencie sua agenda em tempo real através de um aplicativo conectado a uma API Django.
 
 ## Funcionalidades
