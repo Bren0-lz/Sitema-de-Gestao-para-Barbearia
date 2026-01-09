@@ -99,5 +99,5 @@ Abaixo estão alguns dos principais endpoints disponíveis:
 ## Autor
 
 **Breno Luiz**
-* [LinkedIn](https://linkedin.com/in/SEU_LINKEDIN)
+* [LinkedIn](https://www.linkedin.com/in/breno-luiz-silva-do-carmo-19451a243/)
 * [GitHub](https://github.com/Bren0-lz)
